@@ -4,34 +4,61 @@ using UnityEngine;
 
 public class MovementStateManager : MonoBehaviour
 {
-    public float moveSpeed = 3;
+    [Header("Movement")]
+    public float currentMoveSpeed;
+    public float walkSpeed=3,walkBackSpeed=2;
+    public float runSpeed=7,runBackSpeed=5;
+    public float crouchSpeed=2,crouchBackSpeed=1;
+
+
+
+
     [HideInInspector] public Vector3 dir;
-    float horizontalInput;
-     float verticalInput;
+   [HideInInspector] public float horizontalInput;
+    [HideInInspector] public float verticalInput;
     public CharacterController characterController;
 
+    [Header("Ground Check")]
     [SerializeField] float groundYOfset;
     [SerializeField] LayerMask groundMask;
     Vector3 spherePos;
 
+    [Header("Gravity")]
     [SerializeField] float gravity = -9.81f;
     Vector3 velocity;
+
+    
+
+    MovementBaseState currentState;
+
+    public IdleState Idle = new IdleState();
+    public WalkState Walk = new WalkState();
+    public CrouchState Crouch = new CrouchState();  
+    public RunState Run = new RunState();
 
     [HideInInspector] public Animator anim;
 
     private void Start()
     {
-       characterController = GetComponent<CharacterController>();
-        anim=GetComponentInChildren<Animator>();    
+        anim = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
+        SwitchState(Idle);
     }
 
     private void Update()
     {
         GetDirectionAndMove();
         Gravity();
-
-        anim.SetFloat("hzInput", horizontalInput);
+        anim.SetFloat("hzInput",horizontalInput);
         anim.SetFloat("vlInput",verticalInput);
+
+        
+    }
+
+    public void SwitchState(MovementBaseState state)
+    {
+        currentState = state;
+        currentState.EnterState(this);
     }
 
     void GetDirectionAndMove()
@@ -41,7 +68,7 @@ public class MovementStateManager : MonoBehaviour
 
         dir = transform.forward*verticalInput+transform.right*horizontalInput;
 
-        characterController.Move(dir.normalized * moveSpeed*Time.deltaTime);
+        characterController.Move(dir.normalized * currentMoveSpeed*Time.deltaTime);
     }
 
     bool IsGrounded()
