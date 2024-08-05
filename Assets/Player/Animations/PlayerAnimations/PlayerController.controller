@@ -170,7 +170,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: vlInput
     m_Type: 1
-    m_DefaultFloat: 1
+    m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
@@ -184,7 +184,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Running
     m_Type: 4
@@ -417,8 +417,8 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: hzInput
     m_Mirror: 0
-  m_BlendParameter: vlInput
-  m_BlendParameterY: hzInput
+  m_BlendParameter: hzInput
+  m_BlendParameterY: vlInput
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
@@ -637,9 +637,9 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: -7591647221895892932}
   - {fileID: 7452598966179911464}
   - {fileID: 7947457989077649043}
+  - {fileID: -7591647221895892932}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

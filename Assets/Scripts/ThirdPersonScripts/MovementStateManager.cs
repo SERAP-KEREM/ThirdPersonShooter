@@ -51,8 +51,11 @@ public class MovementStateManager : MonoBehaviour
         Gravity();
         anim.SetFloat("hzInput",horizontalInput);
         anim.SetFloat("vlInput",verticalInput);
+     
 
-        
+        currentState.UpdateState(this);
+
+
     }
 
     public void SwitchState(MovementBaseState state)
