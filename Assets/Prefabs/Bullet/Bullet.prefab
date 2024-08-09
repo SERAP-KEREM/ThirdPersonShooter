@@ -186,8 +186,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.024929047
-        value: 0.093753815
+        time: 0.48200226
+        value: 0.018753052
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -224,10 +224,10 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
+    numCornerVertices: 10
     numCapVertices: 0
     alignment: 0
     textureMode: 0
