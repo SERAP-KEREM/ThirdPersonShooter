@@ -5,9 +5,9 @@ using Cinemachine;
 
 public class AimStateManager : MonoBehaviour
 {
-    AimBaseState currentState;
-    public HipFireState Hip=new HipFireState();
-    public AimState Aim=new AimState();
+    public AimBaseState currentState;
+    public HipFireState Hip = new HipFireState();
+    public AimState Aim = new AimState();
 
     [SerializeField] float mouseSense = 1;
     public float xAxis, yAxis;
@@ -18,15 +18,27 @@ public class AimStateManager : MonoBehaviour
     public float adsFov = 40;
     [HideInInspector] public float hipFov;
     [HideInInspector] public float currentFov;
-    public float fovSmoothSpeed=10;
+    public float fovSmoothSpeed = 10;
 
     public Transform aimPos;
     [HideInInspector] public Vector3 actualAimPos;
-    [SerializeField] float aimSmoothSpeed=20;
+    [SerializeField] float aimSmoothSpeed = 20;
     [SerializeField] LayerMask aimMask;
+
+    float xFollowPos;
+    float yFollowPos, ogYPos;
+    [SerializeField] float crouchCamHeight=1f;
+    [SerializeField] float shouldSwapSpeed = 5;
+    MovementStateManager movementStateManager;
+
+
 
     private void Start()
     {
+        movementStateManager=GetComponent<MovementStateManager>();
+        xFollowPos = camFollowPos.localPosition.x;
+        ogYPos=camFollowPos.localPosition.y;
+        yFollowPos = ogYPos;
         virtualCamera= GetComponentInChildren<CinemachineVirtualCamera>();
         hipFov = virtualCamera.m_Lens.FieldOfView;
         anim=GetComponent<Animator>();
@@ -46,7 +58,7 @@ public class AimStateManager : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
             aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSmoothSpeed * Time.deltaTime);
 
-        
+        MoveCamera();
 
         currentState.UpdateState(this);
 
@@ -61,5 +73,16 @@ public class AimStateManager : MonoBehaviour
     {
         currentState= state;
         currentState.EnterState(this);
+    }
+
+    void MoveCamera()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftAlt)) xFollowPos = -xFollowPos;
+        if (movementStateManager.currentState == movementStateManager.Crouch) yFollowPos = crouchCamHeight;
+        else yFollowPos = ogYPos;
+
+        Vector3 newFollowPos= new Vector3(xFollowPos,yFollowPos,camFollowPos.localPosition.z);
+        camFollowPos.localPosition = Vector3.Lerp(camFollowPos.localPosition, newFollowPos, shouldSwapSpeed * Time.deltaTime);
+
     }
 }

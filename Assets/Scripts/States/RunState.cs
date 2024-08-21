@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class RunState : MovementBaseState
 {
-    public override void EnterState(MovementStateManager movement)
-    {
-        movement.anim.SetBool("Running", true);
-    }
+    public override void EnterState(MovementStateManager movement)=>movement.anim.SetBool("Running", true);
+    
 
     public override void UpdateState(MovementStateManager movement)
     {
@@ -16,6 +14,13 @@ public class RunState : MovementBaseState
 
         if (movement.verticalInput < 0) movement.currentMoveSpeed = movement.runBackSpeed;
         else movement.currentMoveSpeed = movement.runSpeed;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            movement.previousState = this;
+            ExitState(movement, movement.Jump);
+
+        }
     }
 
     void ExitState(MovementStateManager movement, MovementBaseState state)
