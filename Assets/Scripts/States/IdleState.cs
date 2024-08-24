@@ -24,4 +24,4 @@ public class IdleState : MovementBaseState
 
         }
     }
-}
+}    
